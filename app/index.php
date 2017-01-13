@@ -668,6 +668,20 @@ $app->put('/auditorias/:id', function ($id) use($db, $app) {
     
 });
 
+
+
+//Consulta a el promedio de todas las auditorias
+
+$app->get('/graph-all-auditorias', function () use($db, $app) {
+	$query = $db->query ("Select * from resauditorias");
+	$auditoriaGra= array();
+	while ($fila = $query->fetch_assoc()) {
+		$auditoriaGra[]=$fila;
+	}
+	echo json_encode($auditoriaGra);
+    
+});
+
 //------------ AUDITORIAS END ----------------------------------//
 
 
