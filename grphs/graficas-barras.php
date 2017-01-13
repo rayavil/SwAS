@@ -22,12 +22,12 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'Data extracted from a HTML table in the page'
+            text: 'Resultado del total de Auditorias'
         },
         yAxis: {
             allowDecimals: false,
             title: {
-                text: 'Units'
+                text: 'Calificación'
             }
         },
         tooltip: {
@@ -49,48 +49,25 @@ $(function () {
 
 <table id="datatable">
 
-<?php
-$data = file_get_contents("data/products.json");
-$products = json_decode($data, true);
-
-foreach ($products as $product) {
-    print_r($product);
-}
-
-?>
-    <thead>
+<thead>
         <tr>
             <th></th>
-            <th>Jane</th>
-            <th>John</th>
+            <th>Actual</th>
+
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <th>Apples</th>
-            <td>3</td>
-            <td>4</td>
-        </tr>
-        <tr>
-            <th>Pears</th>
-            <td>2</td>
-            <td>0</td>
-        </tr>
-        <tr>
-            <th>Plums</th>
-            <td>5</td>
-            <td>11</td>
-        </tr>
-        <tr>
-            <th>Bananas</th>
-            <td>1</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <th>Oranges</th>
-            <td>2</td>
-            <td>4</td>
-        </tr>
+
+<?php
+$data = file_get_contents("http://192.168.0.11/SwAS/app/index.php/graph-all-auditorias");
+$products = json_decode($data, true);
+
+
+foreach ($products as $product) {
+    echo " <tr><th>".$product['serv_descripcion']."</th><td>".$product['promedio']."</td></tr>";
+}
+
+?>   
     </tbody>
 </table>
 

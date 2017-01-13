@@ -684,6 +684,16 @@ $app->get('/graph-all-auditorias', function () use($db, $app) {
 
 //------------ AUDITORIAS END ----------------------------------//
 
+$app->get('/graph-auditorias-servicio', function () use($db, $app) {
+	$query = $db->query ("Select * from auditoriasporservicio");
+	$auditoriaServ= array();
+	while ($fila = $query->fetch_assoc()) {
+		$valorY = floatval($fila['y']);
+		$auditoriaServ[]= array('name'=> $fila['name'], 'y'=> $valorY );
+	}
+	echo json_encode($auditoriaServ, JSON_PRETTY_PRINT);
+    
+});
 
 
 
