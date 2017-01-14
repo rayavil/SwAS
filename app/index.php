@@ -578,6 +578,9 @@ $app->get('/auditorias/:id', function ($id) use($db, $app) {
 $app->delete('/auditorias/:id', function ($id) use($db, $app) {
 
 
+
+
+
 	$delete = $db->query ("DELETE FROM auditoria WHERE no_auditoria = {$id} AND actual <> 1 ");
 	//echo $delete;
 	$afectados = $db->affected_rows;
@@ -700,14 +703,26 @@ $app->get('(/graphaud/:na)(/serv/:idserv)', function ($na,$idserv) use($db, $app
 });
 
 //-------------TOTAL DE ALUMNOS AUDITADOS
-$app->get('/graph-all-auditorias', function () use($db, $app) {
-	$query = $db->query ("Select * from resauditorias");
+$app->get('(/graph-totalalumnos/:audn)', function ($audn) use($db, $app) {
+	$query = $db->query ("Select * from totalalumnos where no_auditoria = {$audn}");
 	$auditoriaGra= array();
 	while ($fila = $query->fetch_assoc()) {
 		$auditoriaGra[]=$fila;
 	}
 	echo json_encode($auditoriaGra);
     
+});
+
+
+//--------------------REPORTE GENERAL POR AUDITORIA-------
+$app->get('(/graph-general/:naud)', function ($naud) use($db, $app) {
+	$query = $db->query ("Select * from promediotxauditoria WHERE no_auditoria={$naud}");
+
+	$auditoriasGra= array();
+	while ($fila = $query->fetch_assoc()) {
+		$auditoriasGra[]=$fila;
+	}
+	echo json_encode($auditoriasGra, JSON_PRETTY_PRINT);
 });
 
 

@@ -6,12 +6,18 @@
 	$anio         = $_POST['anio'];
 	$ciclo        = $_POST['ciclo'];
 	$api          =$_POST['api'];
-	$api= $api.'/serviciosact';
 
-
-	$json = file_get_contents($api);
+	///-----consultar servicios
+    $url= $api.'/serviciosact';
+	$json = file_get_contents($url);
 	$datos = json_decode($json, true);
-	
+	///------fin
+    
+    ///----consultar total de auditoria
+    $url2= $api.'/graph-general/'.$numAuditoria;
+    $json2 = file_get_contents($url2);
+    $tablaAuditoria = json_decode($json2, true);
+    ////----------
 
 
 	//si se intenta llegar directamente lo regresamos a auditorias
@@ -24,12 +30,96 @@
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/data.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="js/plugins/animate-number/jquery.animateNumber.min.js" ></script>
+
 		<style type="text/css">
             ${demo.css}
 		</style>
 
 
 <script type="text/javascript">
+
+
+
+
+    //------------------------Cargar selects
+    
+    function contarAlumnos(){
+        var numeroauditoria = <?php echo $numAuditoria; ?>;
+        $.ajax({
+                                dataType: "json",
+                                url: api+"/graph-totalalumnos/"+numeroauditoria,
+                                type: 'get',
+                                
+                            
+                            beforeSend: function () {
+                                
+                            },
+
+                            error: function(xhr) { // if error occured
+                                    
+
+                            },
+                            success: function(data)
+                           {
+                                //alert(data);
+                                var j=0;
+                                $.each(data, function(i,item){
+                                    j=j+1;
+                                    //alert(j);
+                                    //alert(data[i].corto);
+                                   // var res = data[i]; 
+                                   //document.getElementById("count").innerHTML = j;
+                                                                     
+                                })
+                                //alert(option);
+                                $('#lines').animateNumber({ number: j }, 2000);
+                               
+                            
+
+                                
+                           }
+                       });
+    }
+
+ $( document ).ready(function() {
+    
+    contarAlumnos();
+    // $('#count').html(i);
+    // 
+    
+    Highcharts.chart('reportegral', {
+        data: {
+            table: 'datatable'
+        },
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: ' '
+        },
+        yAxis: {
+            allowDecimals: false,
+            title: {
+                text: 'Valor'
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    this.point.y + ' ' + this.point.name.toLowerCase();
+            }
+        }
+    });
+    
+    
+     
+
+});
+
+
+
+    //------------------------Cargar selects end
 
      
      //------------------------Crear Graficas
@@ -107,7 +197,7 @@
                                 
                         <!-- START PAGE HEAD -->
                         <div class="page-title">                    
-		                    <h2><span class="fa fa-bar-chart-o"></span> Resultados por servicio para el ciclo <?php echo $ciclo.' - '.$anio; ?></h2><br>
+		                    <h2><span class="fa fa-bar-chart-o"></span> Informe de resultados </h2><br>
 		                </div>
 		                 <div class="page-title">  
 		                 <a class="btn btn-primary" href="auditorias.php" role="button"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Regresar</a>
@@ -118,25 +208,99 @@
                 <div class="page-content-wrap">
 
                 		<div class="row">
-	                        <div class="col-md-3">
-	                            
-	                            <!-- START WIDGET SLIDER -->
-	                            <!-- START WIDGET MESSAGES -->
+                          <div class="col-sm-8">
+                                
+                                <!-- START WIDGET SLIDER -->
+                                <!-- START WIDGET MESSAGES -->
+                            <div class="widget widget-default widget-item-icon" >
+                                <div class="widget-item-left">
+                                    <span class="fa fa-check-circle"></span>
+                                </div>                             
+                                <div class="widget-data">
+                                    <div class="widget-int num-count"><?php echo $ciclo.' - '.$anio; ?> </div>
+                                    <div class="widget-title">Auditoria de Servicios</div>
+                                  
+                                </div>      
+                                
+                            </div>                            
+                            <!-- END WIDGET MESSAGES -->
+                            <!-- END WIDGET SLIDER -->
+                          </div>
+
+
+                          <div class="col-sm-4">
+                                
+                                <!-- START WIDGET SLIDER -->
+                                <!-- START WIDGET MESSAGES -->
                             <div class="widget widget-default widget-item-icon" >
                                 <div class="widget-item-left">
                                     <span class="fa fa-user"></span>
                                 </div>                             
                                 <div class="widget-data">
-                                    <div class="widget-int num-count">48</div>
+                                    <div class="widget-int num-count"> <div id="lines">0</div></div>
                                     <div class="widget-title">Estudiantes Auditados</div>
                                     <div class="widget-subtitle">Solo para esta muestra.</div>
                                 </div>      
                                 
                             </div>                            
                             <!-- END WIDGET MESSAGES -->
-	                        <!-- END WIDGET SLIDER -->
-	                      </div>
+                            <!-- END WIDGET SLIDER -->
+                          </div>
 	                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            
+                                <!-- START LINE CHART -->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Reporte General</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="reportegral" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+                                            <table id="datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Valor</th>
+
+                                                        
+                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                <?php 
+                                                    foreach($tablaAuditoria as $tabla) { 
+                                                        if ($tabla['y'] >0 and $tabla['y'] < 2) {
+                                                            $evaluacion ="danger";
+                                                        } if ($tabla['y'] >2 and $tabla['y'] < 3) {
+                                                            $evaluacion ="warning";
+                                                        } if ($tabla['y'] >3 and $tabla['y'] < 5) {
+                                                            $evaluacion ="success";
+                                                        } 
+
+                                                       echo "<tr>
+                                                                <th>".$tabla['serv_descripcion']."</th>
+                                                                <td class='resultado-tabla label label-".$evaluacion."'>".$tabla['y']."</td>"; 
+                                                        
+
+                                                       
+                                                        echo "</tr>";
+                                                    }
+                                                ?>
+                                                    
+                                                   
+                                                </tbody>
+                                            </table>
+                                    </div>
+                                </div>
+                                <!-- END LINE CHART -->
+                                          
+
+                          </div>
+                    </div>
 
                     <div class="row" id="contenido">
 
