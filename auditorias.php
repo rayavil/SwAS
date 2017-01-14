@@ -1,9 +1,7 @@
 <?php
     $pagina = "Auditorias";
     include ('commons/head.php');
-
 ?>
-
 
 <script>
 
@@ -87,7 +85,7 @@ cargarCiclo();
 
              },
                 
-            { "defaultContent": "<p class='text-center'><a href='#' title ='Ver información completa.' class='vew btn btn-info  btn-condensed btn-rounded'><i class='fa fa-eye'></i></a> <a href='#' title='Editar' class='edit btn btn-primary  btn-condensed btn-rounded'><i class='fa fa-pencil'></i></a>  <a href='#' title='Eliminar' class='elimiar btn btn-danger btn-condensed btn-rounded'><i class='glyphicon glyphicon-remove'></i></a></p>"}
+            { "defaultContent": "<p class='text-center'><a href='#' title ='Ver información completa.' class='view btn btn-info  btn-condensed btn-rounded'><i class='fa fa-eye'></i></a> <a href='#' title='Editar' class='edit btn btn-primary  btn-condensed btn-rounded'><i class='fa fa-pencil'></i></a>  <a href='#' title='Eliminar' class='elimiar btn btn-danger btn-condensed btn-rounded'><i class='glyphicon glyphicon-remove'></i></a></p>"}
 
         ]
     } );
@@ -205,7 +203,6 @@ cargarCiclo();
 //-----------------------------Botones Eliminar FIN//
 
 
-
 //-----------------------------Botones Editar//
 
 $('#eestado').change(function() {
@@ -285,6 +282,31 @@ $('#eestado').change(function() {
     } );
 
 //-----------------------------Botones Editar FIN//
+
+
+//-----------------------------Botones Ver//
+
+
+    $('#verTabla').on('click', 'a.view', function (e) {
+        e.preventDefault();
+        var data = tablaServicio.row($(this).parents('tr')).data();
+        var buscarid= data['no_auditoria'];
+        var anio= data['aud_anio'];
+        var ciclo= data['aud_ciclo'];
+
+        var url = 'ver_auditorias.php';
+        var form = $('<form action="' + url + '" method="post">' +
+          '<input type="text" name="auditorianum" value="' + buscarid + '" />' +
+          '<input type="text" name="anio" value="' + anio + '" />' +
+          '<input type="text" name="ciclo" value="' + ciclo + '" />' +
+          '<input type="text" name="api" value="' + api + '" />' +
+          '</form>');
+        $('body').append(form);
+        form.submit();
+        
+    } );
+
+//-----------------------------Botones ver FIN//
 
 
 

@@ -6,21 +6,17 @@
 
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/data.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/data.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
 		<style type="text/css">
-${demo.css}
+            ${demo.css}
 		</style>
 		<script type="text/javascript">
 $(function () {
      
 
      //------------------------Cargar selects
-    function cargarSelect(){
-
-
-
-
+    function crearGrafica(){
   var options = {
         chart: {
             plotBackgroundColor: null,
@@ -57,14 +53,10 @@ $(function () {
     });
 
 
-
-
-
-
     }
 
  
-cargarSelect();
+crearGrafica();
     //------------------------Cargar selects end
 
 

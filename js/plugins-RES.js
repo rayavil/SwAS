@@ -4,8 +4,7 @@ $(function() {
         // Bootstrap datepicker
         var feDatepicker = function(){                        
             if($(".datepicker").length > 0){
-                $(".datepicker").datepicker({format: 'yyyy-mm-dd'});                
-                $("#dp-2,#dp-3,#dp-4").datepicker(); // Sample
+                $(".datepicker").datepicker({format: 'yyyy-mm-dd'});
             }           
             
         }// END Bootstrap datepicker
@@ -75,13 +74,7 @@ $(function() {
                 });
                 
                 // Validation Engine init
-                $("form[id^='validate']").validationEngine('attach', {promptPosition : "bottomLeft", scroll: false,
-                                                                        onValidationComplete: function(form, status){
-                                                                            form.validationEngine("updatePromptsPosition");
-                                                                        },
-                                                                        prettySelect : true,
-                                                                        usePrefix: prefix 
-                                                                     });              
+                $("form[id^='validate']").validationEngine('attach', {promptPosition : "bottomLeft", scroll: false});
             }
         }//END Validation Engine
         
@@ -138,8 +131,9 @@ $(function() {
         //Bootstrap file input
         var feBsFileInput = function(){
             
-            if($("input.fileinput").length > 0)
-                $("input.fileinput").bootstrapFileInput();
+            if($("input.fileinput").length > 0){
+                $("input.fileinput").bootstrapFileInput();                               
+            }
             
         }
         //END Bootstrap file input
@@ -167,7 +161,33 @@ $(function() {
         //Datatables
         var uiDatatable = function(){
             if($(".datatable").length > 0){                
-                $(".datatable").dataTable();
+                $(".datatable").dataTable({
+                   
+                    "language": {
+                        "sProcessing":     "Procesando...",
+                        "sLengthMenu":     "Mostrar _MENU_ registros",
+                        "sZeroRecords":    "No se encontraron resultados",
+                        "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix":    "",
+                        "sSearch":         "Buscar:",
+                        "sUrl":            "",
+                        "sInfoThousands":  ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst":    "Primero",
+                            "sLast":     "Último",
+                            "sNext":     "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        }
+                    }
+                });
                 $(".datatable").on('page.dt',function () {
                     onresize(100);
                 });

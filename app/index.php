@@ -683,15 +683,30 @@ $app->get('/graph-all-auditorias', function () use($db, $app) {
 });
 
 //------------ AUDITORIAS END ----------------------------------//
+//
+//
+//
+//-------------------------GRAFICAS--------------------------------
+//Grafica de auditorias por numero y tipo de servicio
 
-$app->get('/graph-auditorias-servicio', function () use($db, $app) {
-	$query = $db->query ("Select * from auditoriasporservicio");
+$app->get('(/graphaud/:na)(/serv/:idserv)', function ($na,$idserv) use($db, $app) {
+	$query = $db->query ("Select * from auditoriasxservicio WHERE no_auditoria={$na} AND id_servicio = {$idserv}");
 	$auditoriaServ= array();
 	while ($fila = $query->fetch_assoc()) {
 		$valorY = floatval($fila['y']);
 		$auditoriaServ[]= array('name'=> $fila['name'], 'y'=> $valorY );
 	}
 	echo json_encode($auditoriaServ, JSON_PRETTY_PRINT);
+});
+
+//-------------TOTAL DE ALUMNOS AUDITADOS
+$app->get('/graph-all-auditorias', function () use($db, $app) {
+	$query = $db->query ("Select * from resauditorias");
+	$auditoriaGra= array();
+	while ($fila = $query->fetch_assoc()) {
+		$auditoriaGra[]=$fila;
+	}
+	echo json_encode($auditoriaGra);
     
 });
 

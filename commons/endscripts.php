@@ -20,6 +20,13 @@
          <script type="text/javascript" src="js/plugins/notify/bootstrap-notify.js"></script>
 
          <script type="text/javascript" src="js/plugins/datatables/datatables.min.js"></script> 
+
+
+
+
+
+       
+
         <!-- END PAGE PLUGINS -->
 
 

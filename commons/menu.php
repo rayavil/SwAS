@@ -21,10 +21,10 @@
                         </div>
                     </li>
                     <!-- <li class="xn-title">Bienvenid@</li> -->
-                    <li class="xn-openable ">
+                    <li class="xn-openable <?php if($pagina == "Escritorio") { echo 'active'; } ?>">
                         <a href="#"><span class="fa fa-dashboard"></span> <span class="xn-text">INICIO</span></a>
                         <ul>
-                             <li><a href="#"><span class="fa fa-desktop"></span> Escritorio</a><div class="informer informer-primary">2</div></li>
+                             <li><a href="escritorio.php"><span class="fa fa-desktop"></span> Escritorio</a></li>
 
                         </ul>
                     </li>
