@@ -13,6 +13,8 @@
 	$datos = json_decode($json, true);
 	///------fin
     
+    ///
+    
     ///----consultar total de auditoria
     $url2= $api.'/graph-general/'.$numAuditoria;
     $json2 = file_get_contents($url2);
@@ -82,7 +84,29 @@
                        });
     }
 
+
+
+    function verCategoria(idCAtegoria,nombreServ){
+         var numeroauditoria = <?php echo $numAuditoria; ?>;
+       
+        var categoria= idCAtegoria;
+        var nombreCat= nombreServ;
+
+        var url = 'ver_auditorias_categoria.php';
+        var form = $('<form action="' + url + '" method="post">' +
+          '<input type="text" name="auditorianum" value="' + numeroauditoria + '" />' +
+          '<input type="text" name="categoria" value="' + categoria + '" />' +
+          '<input type="text" name="nombreCategoria" value="' + nombreCat + '" />' +
+          '<input type="text" name="api" value="' + api + '" />' +
+          '</form>');
+        $('body').append(form);
+        form.submit();
+    }
+
  $( document ).ready(function() {
+
+
+
     
     contarAlumnos();
     // $('#count').html(i);
@@ -125,6 +149,7 @@
      //------------------------Crear Graficas
     function crearGrafica(servicioElegido,lugarId){
     var audNumero ="<?php echo $numAuditoria; ?>";
+
   	var options = {
         chart: {
             plotBackgroundColor: null,
@@ -156,9 +181,9 @@
     
     var url =  api+'/graphaud/'+audNumero+'/serv/'+servicioElegido;
     $.getJSON(url,  function(data) {
-    	if (data=="") {
-    		$('#contenido').html('<div class="col-sm-8 col-sm-offset-2 text-center"><div class="alert alert-warning" role="alert">Al parecer aún no hay información sobre esta auditoria.<br><img src="img/emo-triste.png" style="clear:left;"  width="50px" alt="Triste! :/"> </div></div>');
-    	}
+    	//if (data=="") {
+    	//	$('#contenido').html('<div class="col-sm-8 col-sm-offset-2 text-center"><div class="alert alert-warning" role="alert">Al parecer aún no hay información sobre esta auditoria.<br><img src="img/emo-triste.png" style="clear:left;"  width="50px" alt="Triste! :/"> </div></div>');
+    	//}
         options.series[0].data = data;
         var chart = new Highcharts.Chart(lugarId,options);
     });
@@ -200,7 +225,7 @@
 		                    <h2><span class="fa fa-bar-chart-o"></span> Informe de resultados </h2><br>
 		                </div>
 		                 <div class="page-title">  
-		                 <a class="btn btn-primary" href="auditorias.php" role="button"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Regresar</a>
+		                 <a class="btn btn-primary" href="#" onclick="window.history.back();" role="button"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Regresar</a>
 		                </div>
                         <!-- END PAGE HEAD -->
 
@@ -306,23 +331,28 @@
 
 
                     <?php 
+                        $lugar=0;
                     	foreach($datos as $dato) { 
-                    		
+                    		$lugar++;
                     			 
-                    		echo "<script>crearGrafica(".$dato['id_servicio'].",'".$dato['serv_descripcion']."');</script>";
+                    		
                     	 	echo '<div class="col-md-6">
                             <!-- START LINE CHART -->
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">'.$dato['serv_descripcion'].'</h3>
+                                    <h3 class="panel-title"><button onclick="';
+                            echo "verCategoria(".$dato['id_servicio'].",'".$dato['serv_descripcion']."')";
+
+
+                            echo '" type="button" class="btn btn-default">'.$dato["serv_descripcion"].'</button></h3>
                                 </div>
                                 <div class="panel-body">
-                                    <div id="'.$dato['serv_descripcion'].'"></div>
+                                    <div id="lugar'.$lugar.'"></div>
                                 </div>
                             </div>
                             <!-- END LINE CHART -->
                         </div>';
-						  
+						  echo "<script>crearGrafica(".$dato['id_servicio'].",'lugar".$lugar."');</script>";
 						   //echo $dato['id_servicio'];
 						}
 

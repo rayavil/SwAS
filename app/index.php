@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
 
 header("Access-Control-Allow-Headers: X-Requested-With");
-
+header("Content-Type: text/html;charset=utf-8");
 
 
 
@@ -14,6 +14,7 @@ require 'vendor/autoload.php';
 $app = new \Slim\Slim();
 
 $db = new mysqli("localhost","root","","dbauditorias");
+mysqli_set_charset($db,"utf8");
 
 //------------ CARRERAS ----------------------------------//
 
@@ -201,6 +202,7 @@ $app->put('/servicios/:id', function ($id) use($db, $app) {
 $app->get('/items', function () use($db, $app) {
 	$query = $db->query ("Select servicios.serv_descripcion, item.item_descripcion, item.item_activo, item.id_item from item INNER JOIN servicios ON item.id_servicio = servicios.id_servicio");
 	$carrera= array();
+
 	while ($fila = $query->fetch_assoc()) {
 		$carrera["data"][]=$fila;
 	}
@@ -292,7 +294,7 @@ $app->get('/alumnos', function () use($db, $app) {
 
 $app->get('/alumnos/:id', function ($id) use($db, $app) {
 
-	$query = $db->query ("Select * from alumnos WHERE ctrl_alu = {$id}");
+	$query = $db->query ("Select * from alumnos WHERE ctrl_alu = '{$id}'");
 	$alumno= array();
 	while ($fila = $query->fetch_assoc()) {
 		$alumno[]=$fila;
@@ -577,14 +579,15 @@ $app->get('/auditorias/:id', function ($id) use($db, $app) {
 
 $app->delete('/auditorias/:id', function ($id) use($db, $app) {
 
-
-
+	$deleteAlumnos = $db->query ("DELETE FROM alumnos WHERE auditoria = {$id}");
+	$afectados2 = $db->affected_rows;
 
 
 	$delete = $db->query ("DELETE FROM auditoria WHERE no_auditoria = {$id} AND actual <> 1 ");
 	//echo $delete;
+	
 	$afectados = $db->affected_rows;
-	if ($afectados == 1) {
+	if ($afectados == 1 AND $afectados > 0 ) {
 		$result = array("estado" => "true");
 	} else{
 		$result = array("estado" => "false");
@@ -717,6 +720,21 @@ $app->get('(/graph-totalalumnos/:audn)', function ($audn) use($db, $app) {
 //--------------------REPORTE GENERAL POR AUDITORIA-------
 $app->get('(/graph-general/:naud)', function ($naud) use($db, $app) {
 	$query = $db->query ("Select * from promediotxauditoria WHERE no_auditoria={$naud}");
+
+	$auditoriasGra= array();
+	while ($fila = $query->fetch_assoc()) {
+		$auditoriasGra[]=$fila;
+	}
+	echo json_encode($auditoriasGra, JSON_PRETTY_PRINT);
+});
+
+$app->get('(/grap-item/:na)(/serv/:idserv)', function ($na,$idserv) use($db, $app) {
+	//$consulta = "Select * from promedioxitem WHERE no_auditoria={$na} AND id_servicio = {$idserv}  ";
+	//echo $consulta."<br>";
+	//
+	$consultanew = "SELECT item.item_descripcion, Avg(encuesta.resultado) AS promedio, item.id_servicio,encuesta.no_auditoria FROM item INNER JOIN encuesta ON encuesta.id_item = item.id_item WHERE encuesta.no_auditoria = {$na} AND item.id_servicio = {$idserv} GROUP BY item_descripcion";
+	//echo $consultanew."<br>";
+	$query = $db->query ($consultanew);
 
 	$auditoriasGra= array();
 	while ($fila = $query->fetch_assoc()) {
