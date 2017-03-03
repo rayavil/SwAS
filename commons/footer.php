@@ -1,3 +1,3 @@
-<div class="x-content-footer footer pull-right">
-	Ramón Avila © <?php echo date('Y'); ?>  ITSF - Software de Auditoría de Servicios 
+<div class="x-content-footer footer pull-right text-right">
+	 © <?php echo date('Y'); ?>  ITSF - Software de Auditoría de Servicios <br> Desarrollado por Ramón Avila
 </div>

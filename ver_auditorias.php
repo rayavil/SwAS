@@ -2,11 +2,13 @@
     $pagina = "Auditorias";
     include ('commons/head.php');
 
-	$numAuditoria = $_POST['auditorianum'];
-	$anio         = $_POST['anio'];
-	$ciclo        = $_POST['ciclo'];
-	$api          =$_POST['api'];
+    $numAuditoria = $_POST['auditorianum'];
+    $anio         = $_POST['anio'];
+    $ciclo        = $_POST['ciclo'];
+    $api          =$_POST['api'];
 
+
+    
 	///-----consultar servicios
     $url= $api.'/serviciosact';
 	$json = file_get_contents($url);
@@ -300,9 +302,9 @@
                                                     foreach($tablaAuditoria as $tabla) { 
                                                         if ($tabla['y'] >0 and $tabla['y'] < 2) {
                                                             $evaluacion ="danger";
-                                                        } if ($tabla['y'] >2 and $tabla['y'] < 3) {
+                                                        } if ($tabla['y'] >=2 and $tabla['y'] < 3) {
                                                             $evaluacion ="warning";
-                                                        } if ($tabla['y'] >3 and $tabla['y'] < 5) {
+                                                        } if ($tabla['y'] >=3 and $tabla['y'] < 5) {
                                                             $evaluacion ="success";
                                                         } 
 

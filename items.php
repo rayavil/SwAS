@@ -191,9 +191,6 @@ cargarSelect();
                                 })
 
                                 tablaServicio.ajax.reload();
-                                
-                               
-                                
 
                            }
                        });

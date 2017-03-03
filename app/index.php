@@ -2,13 +2,8 @@
 
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
-
 header("Access-Control-Allow-Headers: X-Requested-With");
 header("Content-Type: text/html;charset=utf-8");
-
-
-
-
 
 require 'vendor/autoload.php';
 $app = new \Slim\Slim();
@@ -664,17 +659,10 @@ $app->put('/auditorias/:id', function ($id) use($db, $app) {
 							$result = "false";	
 						}
 				}
-
 	}
-	
-	
-
  	//echo $query;
 	echo json_encode($result);
-    
 });
-
-
 
 //Consulta a el promedio de todas las auditorias
 
@@ -713,7 +701,6 @@ $app->get('(/graph-totalalumnos/:audn)', function ($audn) use($db, $app) {
 		$auditoriaGra[]=$fila;
 	}
 	echo json_encode($auditoriaGra);
-    
 });
 
 
@@ -742,11 +729,6 @@ $app->get('(/grap-item/:na)(/serv/:idserv)', function ($na,$idserv) use($db, $ap
 	}
 	echo json_encode($auditoriasGra, JSON_PRETTY_PRINT);
 });
-
-
-
-
-
 
 
 $app->run();

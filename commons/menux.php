@@ -15,7 +15,7 @@
                     </li> 
                     <!-- END POWER OFF -->
                     <!-- MESSAGES -->
-                    <li class="xn-icon-button pull-right">
+                 <!--    <li class="xn-icon-button pull-right">
                         <a href="#"><span class="fa fa-bullhorn"></span></a>
                         <div class="informer informer-info">4</div>
                         <div class="panel panel-primary animated zoomIn xn-drop-left xn-panel-dragging">
@@ -46,7 +46,7 @@
                                 <a href="#">Ver todas las notificaiones</a>
                             </div>                            
                         </div>                        
-                    </li>
+                    </li> -->
                     <!-- END MESSAGES -->
                     
                     <!-- LANG BAR -->

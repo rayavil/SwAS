@@ -44,7 +44,7 @@
 
                         </ul>
                     </li>
-                    <li class="xn-openable ">
+                    <!-- <li class="xn-openable ">
                         <a href="#"><span class="fa fa-bar-chart-o"></span> <span class="xn-text">REPORTES</span></a>
                         <ul>
 
@@ -54,7 +54,7 @@
 
 
                         </ul>
-                    </li>
+                    </li> -->
                     <li class="xn-openable ">
                         <a href="#"><span class="fa fa-cogs"></span> <span class="xn-text">CONFIGURACIÓN</span></a>
                         <ul>
